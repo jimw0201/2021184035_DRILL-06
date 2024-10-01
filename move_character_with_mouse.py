@@ -1,3 +1,4 @@
+# 2021184035 지민우
 from pico2d import *
 import random   # random.randint 사용을 위한 random 모듈
 
