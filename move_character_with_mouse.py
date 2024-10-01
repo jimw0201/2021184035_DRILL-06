@@ -40,8 +40,12 @@ while running:
 
     t += speed      # t 값을 speed(이동 속도)만큼 점진적으로 증가
 
+    if t >= 1.0:    # t 값이 1.0이 되면(캐릭터가 손화살표 위치에 도달하면)
+        t = 0.0     # t 값을 0.0으로 설정하여 그 위치를 캐릭터의 시작 위치로 설정하고
+        hand_x, hand_y = random.randint(0, TUK_WIDTH), random.randint(0, TUK_HEIGHT)    # 손화살표의 좌표를 랜덤하게 재설정
+
     handle_events()
 
-    delay(0.05)
+    delay(0.01)
 
 close_canvas()
