@@ -24,15 +24,22 @@ hand_x, hand_y = random.randint(0, TUK_WIDTH), random.randint(0, TUK_HEIGHT)    
 frame = 0
 t = 0.0       # t = 0.0 : 캐릭터 시작 위치, t = 1.0 : 손화살표 위치 도달, 0 <= t <= 1
 speed = 0.01  # 캐릭터 이동 속도
+dir = 0     # 캐릭터의 바라보는 방향을 이동 방향과 일치시키기 위한 변수
 hide_cursor()
 
 while running:
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     hand_arrow.draw(hand_x, hand_y)     # (hand_x, hand_y)에 손화살표 그리기
-    character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+    character.clip_draw(frame * 100, 100 * dir, 100, 100, x, y)     # dir 값에 따라 캐릭터의 바라보는 방향을 변경하도록 수정
     update_canvas()
     frame = (frame + 1) % 8
+
+    if t == 0:              # t 값이 0일 때(캐릭터가 손화살표로 움직이기 시작할 때) 방향을 바꾸도록 함
+        if hand_x > x:      # 손화살표의 x좌표가 캐릭터의 x좌표보다 클 경우(손화살표가 캐릭터보다 오른쪽에 있을 경우)
+            dir = 1         # 캐릭터의 바라보는 방향을 오른쪽으로
+        else:               # 아닌 경우
+            dir = 0         # 캐릭터의 바라보는 방향을 왼쪽으로
 
     # 식 m(t) = (1 - t)*p1 + t * p2 로 캐릭터의 좌표를 계산 / p1 : 캐릭터의 위치, p2 : 손화살표의 위치
     x = (1 - t) * x + t * hand_x
@@ -46,6 +53,6 @@ while running:
 
     handle_events()
 
-    delay(0.01)
+    delay(0.02)
 
 close_canvas()
